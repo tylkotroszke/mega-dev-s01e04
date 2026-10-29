@@ -3,3 +3,11 @@ var/
 .env
 *.png
 .claude/skills
+
+# Generated previews may carry a lane marker. Never add these to history.
+.preview/
+preview/
+previews/
+_site/
+*.html
+*.htm
