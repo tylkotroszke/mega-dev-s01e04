@@ -1,6 +1,6 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
 ---
@@ -77,3 +77,26 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issue list and completion record
+
+The original sections above retain the source references used in the GitHub issues
+(for example, `Source: plan.md § 4`).
+
+| Issue | Source | Work |
+| --- | --- | --- |
+| [#1](https://github.com/tylkotroszke/mega-dev-s01e04/issues/1) | § 1 | Define the morning digest data contract |
+| [#2](https://github.com/tylkotroszke/mega-dev-s01e04/issues/2) | § 1 | Read and aggregate nightly JSONL logs |
+| [#3](https://github.com/tylkotroszke/mega-dev-s01e04/issues/3) | § 2a | Render the nightly digest HTML page |
+| [#4](https://github.com/tylkotroszke/mega-dev-s01e04/issues/4) | § 2b | Expose the nightly digest JSON route |
+| [#5](https://github.com/tylkotroszke/mega-dev-s01e04/issues/5) | § 2c | Link status-board nights to digests with event counts |
+| [#6](https://github.com/tylkotroszke/mega-dev-s01e04/issues/6) | § 2d | Test digest routes and prepare the manual testbook |
+| [#7](https://github.com/tylkotroszke/mega-dev-s01e04/issues/7) | § 3 | Publish the marked HTML preview and submit it for review |
+| [#8](https://github.com/tylkotroszke/mega-dev-s01e04/issues/8) | § 4 | Remove the public lane marker after review and archive the plan |
+
+Review has been received. Publish this final archive commit only after the approved
+clean replacement at the original public URL passes the checks in
+[the preview record](../../preview.md). Until then, this local `done` status is a
+staged final record, not evidence of public cleanup. Issue #8 stays open until that
+gate and publication; its closing comment will cite this commit, avoiding a circular
+commit reference. Course acceptance is checked separately from plan completion.
