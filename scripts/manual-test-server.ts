@@ -7,11 +7,13 @@ import type { RigConfig } from '../src/config.js';
 
 const temporaryRunsDir = await mkdtemp(join(tmpdir(), 'rig-manual-runs-'));
 const sampleNight = '2026-10-28';
+const previousSampleNight = '2026-10-27';
 const emptyNight = '2026-10-29';
 const missingNight = '2026-10-30';
 
 try {
   await copyFile(new URL(`../runs/${sampleNight}.jsonl`, import.meta.url), join(temporaryRunsDir, `${sampleNight}.jsonl`));
+  await copyFile(new URL(`../runs/${previousSampleNight}.jsonl`, import.meta.url), join(temporaryRunsDir, `${previousSampleNight}.jsonl`));
   await writeFile(join(temporaryRunsDir, `${emptyNight}.jsonl`), '', 'utf8');
 
   const config: RigConfig = {
@@ -34,6 +36,7 @@ try {
     console.log(`Manual digest server bound to ${info.address}:${info.port}`);
     console.log(`Board: ${origin}/`);
     console.log(`Sample digest: ${origin}/digest/${sampleNight}`);
+    console.log(`Previous sample digest: ${origin}/digest/${previousSampleNight}`);
     console.log(`Empty digest: ${origin}/digest/${emptyNight}`);
     console.log(`Missing digest: ${origin}/digest/${missingNight}`);
     console.log(`Sample JSON: ${origin}/api/digest/${sampleNight}`);

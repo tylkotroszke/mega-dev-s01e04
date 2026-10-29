@@ -14,16 +14,18 @@ $env:PORT = '8788'
 node --import tsx scripts/manual-test-server.ts
 ```
 
-The script binds only to `127.0.0.1`, copies the tracked sample night into a
-new temporary runs directory, creates an empty-night file there, and leaves a
-third date without a file. It prints the actual URLs and removes its temporary
-directory when stopped with Ctrl+C. It does not write to `runs/`. If port 8788
-is occupied, set `PORT` to another available port before running it.
+The script binds only to `127.0.0.1`, copies the tracked sample nights
+2026-10-27 and 2026-10-28 into a new temporary runs directory, creates a
+synthetic empty-night file there, and leaves a third date without a file. It
+prints the actual URLs and removes its temporary directory when stopped with
+Ctrl+C. It does not write to `runs/`. If port 8788 is occupied, set `PORT` to
+another available port before running it.
 
 For the default port, the local links are:
 
 - Board: <http://127.0.0.1:8788/>
 - Sample page: <http://127.0.0.1:8788/digest/2026-10-28>
+- Previous sample page: <http://127.0.0.1:8788/digest/2026-10-27>
 - Empty page: <http://127.0.0.1:8788/digest/2026-10-29>
 - Missing page: <http://127.0.0.1:8788/digest/2026-10-30>
 - Optional sample JSON: <http://127.0.0.1:8788/api/digest/2026-10-28>
@@ -56,7 +58,18 @@ Keep these separate from the core manual acceptance checks above.
 | ID | Steps | Expected result | Actual result / notes | Status |
 | --- | --- | --- | --- | --- |
 | M06 — JSON parity and source offset | Open the optional sample JSON URL and compare it with the sample page. | Same five jobs and order; JSON owner is `null` where HTML shows `—`; `digest/render` retains `2026-10-29T05:41:09+01:00`. | — | NOT RUN |
-| M07 — Board links | Open the board and follow each listed-night link. | Both listed nights open their digest pages; displayed sample event counts are 10 ok / 4 retry / 1 fail for 2026-10-28 and 7 ok / 0 retry / 0 fail for 2026-10-27. | — | NOT RUN |
+| M07 — Board links | Open the board and follow the links for the two copied sample nights. | Both sample-night links open their digest pages; 2026-10-28 shows 10 ok / 4 retry / 1 fail and 2026-10-27 shows 7 ok / 0 retry / 0 fail. The synthetic empty night is only for M03 and is not expected on the board. | — | NOT RUN |
+
+## After course review and approved replacement
+
+Run M08 only after course review has arrived and Mateusz has approved the
+replacement of the public artifact. The agent supplies the original public URL
+after that step is authorized; this testbook does not pre-authorize publication
+or replacement.
+
+| ID | Steps | Expected result | Actual result / notes | Status |
+| --- | --- | --- | --- | --- |
+| M08 — Same URL without marker | In a fresh private browser window, open the supplied original public URL after the approved replacement. | The same URL still serves the digest with the same data and the banner says “no marker set”. The agent separately verifies that the marker is absent from the entire HTML response. | — | NOT RUN |
 
 Record a result only after the corresponding step is actually performed. For
 example: `M04 FAIL — at 200% the last-error value is clipped.` A failure can
