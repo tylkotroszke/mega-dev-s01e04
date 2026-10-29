@@ -1,6 +1,6 @@
 # Digest preview — local preparation for issue #7
 
-Status: local export is implemented. Publication, Mateusz's manual findings, course submission
+Status: local export is implemented. Publication, individual manual test results, course submission
 and received review are still pending. Issue #7 remains open. Issue #8 must wait for received
 review and approval of the exact replacement. This document authorizes no external writes.
 
@@ -50,87 +50,20 @@ git check-ignore .preview/marked/index.html .preview/clean/index.html
 git diff --cached --name-only
 ```
 
-## Proposed publication — not installed or run
+## Prepared publication — local workflow, not pushed or run
 
 Use GitHub Pages' Actions source after approval of the exact settings change, workflow,
 secret provisioning, approved commit and generated contents. This keeps the marked HTML
 out of Git history and allows a later clean export to replace the same site root. Publishing
 a committed HTML file would retain the marker in Git history, contrary to ADR 0003.
 
-The complete proposed `.github/workflows/preview.yml` is below. It has only
-`workflow_dispatch`, so pushing code does not deploy. Every dispatch still needs Mateusz's
-approval of that exact attempt and selected `mode`; a workflow input is not approval.
-Use an approved default-branch commit. The future `github-pages` environment must be
-configured to require Mateusz's deployment approval before any run. No such environment,
-secret, Pages setting or workflow is created by this local preparation.
-
-```yaml
-name: Approved digest preview
-
-on:
-  workflow_dispatch:
-    inputs:
-      mode:
-        description: Approved publication mode
-        required: true
-        type: choice
-        options: [marked, clean]
-
-permissions: {}
-
-concurrency:
-  group: digest-preview-pages
-  cancel-in-progress: false
-
-jobs:
-  build:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: '11.25.0'
-          run_install: false
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm test
-      - name: Export marked digest
-        if: inputs.mode == 'marked'
-        env:
-          LANE_MARKER: ${{ secrets.LANE_MARKER }}
-        run: pnpm preview:export --marked
-      - name: Export clean digest
-        if: inputs.mode == 'clean'
-        run: pnpm preview:export --clean
-      - name: Upload only the generated HTML
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: .preview/${{ inputs.mode }}/
-          retention-days: 1
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/configure-pages@v5
-      - name: Deploy approved artifact
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
+The complete workflow is in [.github/workflows/preview.yml](../.github/workflows/preview.yml).
+It has only `workflow_dispatch`, so pushing code does not deploy. Every dispatch
+needs Mateusz's approval of that exact attempt and selected mode; an input is not approval.
+Use the approved default-branch commit. The deployment uses the `github-pages`
+environment, created by GitHub when first referenced. No additional required-reviewer gate
+is proposed: the earlier draft's extra environment approval was only a local suggestion.
+No environment, secret or Pages setting has been created, and the workflow is not pushed.
 
 The build job reads source and uploads a Pages artifact; only its marked export step receives
 the repository secret. It never prints the marker or HTML. The deploy job gets Pages write

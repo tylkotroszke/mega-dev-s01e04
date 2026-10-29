@@ -1,6 +1,9 @@
 # S01E04 — manual digest testbook
 
-Status: prepared for human review; no manual case has been run. Results stay
+Status: on 2026-10-29 Mateusz gave general positive visual feedback and agreed
+to proceed, while noting the limited navigation and browser back/forward controls.
+This is not confirmation of individual cases or of the 200%/narrow-width checks.
+No individual manual case has a confirmed result. Results stay
 `NOT RUN` until Mateusz performs the check. These are local acceptance checks
 for the plan, styleguide, and the requested manual review; they are not a claim
 that the course grades this document.
