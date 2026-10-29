@@ -8,19 +8,20 @@ const css = `
   :root { color-scheme: light dark; --fg: #1d1d1b; --bg: #f6f4ee; --mute: #6b6a64; --line: #d9d5c9; --warn: #a14a12; }
   @media (prefers-color-scheme: dark) { :root { --fg: #e8e6df; --bg: #161614; --mute: #9a988f; --line: #33322e; --warn: #e08a4f; } }
   body { margin: 0; font: 15px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--fg); background: var(--bg); }
-  header { display: flex; gap: 1.5rem; padding: .75rem 1.25rem; border-bottom: 1px solid var(--line); }
+  header { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding: .75rem 1.25rem; border-bottom: 1px solid var(--line); }
   header .marker { margin-left: auto; color: var(--mute); }
-  main { padding: 1.25rem; max-width: 60rem; }
+  main { box-sizing: border-box; width: 100%; max-width: 90rem; padding: 1.25rem; }
   table { border-collapse: collapse; width: 100%; }
   th, td { text-align: left; padding: .35rem .75rem .35rem 0; border-bottom: 1px solid var(--line); }
   th { color: var(--mute); font-weight: normal; }
-  .table-scroll { max-width: 100%; overflow-x: auto; }
+  .table-scroll { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
   .digest-table { min-width: 68rem; }
   .digest-table th, .digest-table td { padding-right: 1rem; white-space: nowrap; }
   .digest-table td:nth-child(6) { white-space: normal; min-width: 12rem; max-width: 24rem; overflow-wrap: anywhere; }
   .digest-table tr.attention { font-weight: bold; background: color-mix(in srgb, var(--warn) 10%, var(--bg)); }
   .warn { color: var(--warn); }
   .mute { color: var(--mute); }
+  @media (max-width: 32rem) { header .marker { margin-left: 0; width: 100%; } }
 `;
 
 export function Layout(props: { title: string; lane: Lane; children: Child }) {
@@ -30,6 +31,7 @@ export function Layout(props: { title: string; lane: Lane; children: Child }) {
       <html lang="en">
         <head>
           <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <title>rig · {props.title}</title>
           <style>{raw(css)}</style>
         </head>
