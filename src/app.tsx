@@ -3,6 +3,7 @@ import { loadConfig, type RigConfig } from './config.js';
 import { lane } from './lane.js';
 import { readStatus } from './status.js';
 import { readNight } from './digest/reader.js';
+import { registerDigestJsonRoute } from './digest/json-route.js';
 import { Layout } from './views/layout.js';
 import { DigestPage } from './views/digest.js';
 import { StatusBoard } from './views/status.js';
@@ -31,5 +32,6 @@ export function createApp(config: RigConfig = loadConfig()) {
     );
   });
 
+  registerDigestJsonRoute(app, config);
   return app;
 }
