@@ -14,6 +14,11 @@ const css = `
   table { border-collapse: collapse; width: 100%; }
   th, td { text-align: left; padding: .35rem .75rem .35rem 0; border-bottom: 1px solid var(--line); }
   th { color: var(--mute); font-weight: normal; }
+  .table-scroll { max-width: 100%; overflow-x: auto; }
+  .digest-table { min-width: 68rem; }
+  .digest-table th, .digest-table td { padding-right: 1rem; white-space: nowrap; }
+  .digest-table td:nth-child(6) { white-space: normal; min-width: 12rem; max-width: 24rem; overflow-wrap: anywhere; }
+  .digest-table tr.attention { font-weight: bold; background: color-mix(in srgb, var(--warn) 10%, var(--bg)); }
   .warn { color: var(--warn); }
   .mute { color: var(--mute); }
 `;
